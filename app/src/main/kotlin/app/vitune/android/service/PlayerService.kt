@@ -488,6 +488,17 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
 
         if (reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO || reason == Player.MEDIA_ITEM_TRANSITION_REASON_SEEK)
             updateMediaSessionQueue(player.currentTimeline)
+
+        // Add detailed logging for player-related errors
+        if (mediaItem != null) {
+            logcat().add(Logcat.FormattedLine(
+                timestamp = Instant.now(),
+                level = Logcat.FormattedLine.Level.Info,
+                tag = TAG,
+                pid = Process.myPid().toLong(),
+                message = "Media item transitioned: ${mediaItem.mediaId}"
+            ))
+        }
     }
 
     override fun onTimelineChanged(timeline: Timeline, reason: Int) {
@@ -526,6 +537,15 @@ class PlayerService : InvincibleService(), Player.Listener, PlaybackStatsListene
                 )
                 .setContentTitle(getString(R.string.skip_on_error))
         }
+
+        // Add detailed logging for player-related errors
+        logcat().add(Logcat.FormattedLine(
+            timestamp = Instant.now(),
+            level = Logcat.FormattedLine.Level.Error,
+            tag = TAG,
+            pid = Process.myPid().toLong(),
+            message = "Player error: ${error.message}"
+        ))
     }
 
     private fun updateMediaSessionQueue(timeline: Timeline) {

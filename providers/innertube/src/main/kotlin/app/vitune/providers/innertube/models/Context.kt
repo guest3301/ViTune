@@ -81,17 +81,9 @@ data class Context(
         }
         const val DEFAULT_VISITOR_DATA = "CgtsZG1ySnZiQWtSbyiMjuGSBg%3D%3D"
 
-        val DefaultWeb get() = DefaultWebNoLang.withLang
+        val DefaultWeb get() = DefaultIOS.withLang
 
-        val DefaultWebNoLang = Context(
-            client = Client(
-                clientName = "WEB_REMIX",
-                clientVersion = "1.20220606.03.00",
-                platform = "DESKTOP",
-                userAgent = UserAgents.DESKTOP,
-                referer = "https://music.youtube.com/"
-            )
-        )
+        val DefaultWebNoLang = DefaultIOS
 
         val DefaultWebOld = Context(
             client = Client(
